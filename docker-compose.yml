@@ -1,0 +1,24 @@
+version: "2.1"
+
+services:
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    network_mode: host
+    # If you would like to serve a volume shared with another container, ensure this container
+    # `depends_on` the other one by using the below.
+    # depends_on:
+    #  - name_of_your_chosen_container
+    volumes:
+      - "volume1:/nfs"
+    cap_add:
+    - SYS_ADMIN
+    environment:
+      NFS_EXPORT_0: '/nfs *(rw,sync,no_subtree_check,no_auth_nlm,insecure,no_root_squash,fsid=root)'
+      # Serve multipule folders by adding extra env variables like below.
+      # NFS_EXPORT_1: '/nfs_1 *(rw,sync,no_subtree_check,no_auth_nlm,insecure,no_root_squash,fsid=root)'
+    restart: always
+
+volumes:
+  volume1:
