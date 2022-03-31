@@ -301,7 +301,7 @@ assert_kernel_mod() {
   fi
 
   if [[ ! -d /lib/modules ]] || ! is_granted_linux_capability 'sys_module'; then
-    bail "$module module is not loaded in the host's kernel. Try running: `modprobe $module` on the host and restarting the container."
+    bail "$module module is not loaded in the host's kernel. Try running: 'modprobe $module' on the host and restarting the container."
   fi
 
   log "attempting to load kernel module $module"
@@ -395,7 +395,7 @@ init_state_nfs_version() {
   local -r requested_version="${!ENV_VAR_NFS_VERSION:-$DEFAULT_NFS_VERSION}"
 
   echo "$requested_version" | grep -Eq '^3$|^4(\.[1-2])?$'
-  on_failure bail "please set $ENV_VAR_NFS_VERSION to one of: 4.2, 4.1, 4, 3"
+  on_failure bail "please set $ENV_VAR_NFS_VERSION to one of: 4.3, 4.2, 4.1"
 
   if ! is_nfs3_enabled && [[ "$requested_version" = '3' ]]; then
     bail 'you cannot simultaneously enable and disable NFS version 3'
